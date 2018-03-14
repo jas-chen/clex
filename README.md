@@ -6,18 +6,19 @@ Clex is a state managment library that
 - First class action creators
 - Switch-case free
 - Easy to use in server side
+- View library agnostic
 - Inspired by Redux, Elm Architecture and Clean Architecture
 
+## Example: Counter
 ```js
-///////////////// Example: Counter /////////////////
 import { createCore } from 'clex';
 
 function incr() {
-  return this.state += 1;
+  return this.state + 1;
 }
 
 function decr() {
-  return this.state -= 1;
+  return this.state - 1;
 }
 
 const core = createCore({
@@ -32,8 +33,10 @@ core.actions.incr(); // 2
 core.actions.decr(); // 1
 ```
 
+## Example: Who to follow
 ```js
-///////////////// Example: Who to follow /////////////////
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { createCore } from 'clex';
 
 function fetchUsers() {
@@ -54,6 +57,7 @@ function loaded(users) {
 }
 
 function refresh() {
+  // return [nextState, sideEffect]
   return [
     { ...this.state, loading: true },
     (actions) => this.services.fetchUsers().then(actions.loaded)
