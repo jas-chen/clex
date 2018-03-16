@@ -1,6 +1,6 @@
 {
   "name": "clex",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Switch-case free state managment library",
   "main": "index.js",
   "scripts": {
