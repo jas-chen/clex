@@ -1,14 +1,13 @@
 function createCore({ actions, services, initState, onNext }) {
+  const _actions = {};
   let _state = initState;
-  let _actions = {};
-  const _services = Object.freeze(services);
 
   Object.keys(actions).forEach(name => {
     const action = actions[name];
     _actions[name] = (...args) => {
       const context = {
         state: _state,
-        services: _services
+        services
       };
 
       const result = action.apply(context, args);
@@ -26,7 +25,6 @@ function createCore({ actions, services, initState, onNext }) {
     }
   });
 
-  _actions = Object.freeze(_actions);
   onNext(initState, _actions, { type: '@@duxy/INIT' + Math.random().toString(36).substring(7).split('').join('.') });
 
   return {
