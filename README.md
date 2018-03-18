@@ -57,9 +57,9 @@ function loaded(users) {
 
 function createRefresh(fetchUsers) {
   return function refresh() {
-    // return [nextState, sideEffect]
+    // return [(partial)Model, sideEffect]
     return [
-      { ...this, loading: true },
+      { loading: true },
       (actions) => fetchUsers().then(actions.loaded)
     ];
   }
@@ -91,7 +91,10 @@ createCore({
     loaded,
     refresh: createRefresh(fetchUsers)
   },
-  model: { users: [] },
+  model: {
+    loading: false,
+    users: []
+  },
   onNext: present
 });
 ```
