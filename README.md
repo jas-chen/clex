@@ -14,17 +14,17 @@ Clex is a state managment library that
 import { createCore } from 'clex';
 
 function incr() {
-  return this.state + 1;
+  return { count: this.count + 1 };
 }
 
 function decr() {
-  return this.state - 1;
+  return { count: this.count - 1 };
 }
 
 const core = createCore({
   actions: { incr, decr },
-  initState: 0,
-  onNext: count => console.log(count)
+  model: { count: 0 },
+  onNext: model => console.log(model.count)
 });
 
 // 0
@@ -50,7 +50,6 @@ function fetchUsers() {
 
 function loaded(users) {
   return {
-    ...this.state,
     loading: false,
     users
   };
@@ -60,7 +59,7 @@ function createRefresh(fetchUsers) {
   return function refresh() {
     // return [nextState, sideEffect]
     return [
-      { ...this.state, loading: true },
+      { ...this, loading: true },
       (actions) => fetchUsers().then(actions.loaded)
     ];
   }
@@ -80,9 +79,9 @@ function App({ onRefreshClick, users, loading }) {
   );
 }
 
-function present(state, actions) {
+function present(model, actions) {
   ReactDOM.render(
-    <App onRefreshClick={actions.refresh} {...state} />,
+    <App onRefreshClick={actions.refresh} {...model} />,
     document.getElementById('root')
   );
 }
@@ -92,7 +91,7 @@ createCore({
     loaded,
     refresh: createRefresh(fetchUsers)
   },
-  initState: { users: [] },
+  model: { users: [] },
   onNext: present
 });
 ```
