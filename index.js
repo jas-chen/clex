@@ -1,4 +1,4 @@
-function createCore({ actions, services, initState, onNext }) {
+function createCore({ actions, initState, onNext }) {
   const _actions = {};
   let _state = initState;
 
@@ -6,8 +6,7 @@ function createCore({ actions, services, initState, onNext }) {
     const action = actions[name];
     _actions[name] = (...args) => {
       const context = {
-        state: _state,
-        services
+        state: _state
       };
 
       const result = action.apply(context, args);

@@ -56,12 +56,14 @@ function loaded(users) {
   };
 }
 
-function refresh() {
-  // return [nextState, sideEffect]
-  return [
-    { ...this.state, loading: true },
-    (actions) => this.services.fetchUsers().then(actions.loaded)
-  ];
+function createRefresh(fetchUsers) {
+  return function refresh() {
+    // return [nextState, sideEffect]
+    return [
+      { ...this.state, loading: true },
+      (actions) => fetchUsers().then(actions.loaded)
+    ];
+  }
 }
 
 function App({ onRefreshClick, users, loading }) {
@@ -86,8 +88,10 @@ function present(state, actions) {
 }
 
 createCore({
-  services: { fetchUsers },
-  actions: { loaded, refresh },
+  actions: {
+    loaded,
+    refresh: createRefresh(fetchUsers)
+  },
   initState: { users: [] },
   onNext: present
 });
