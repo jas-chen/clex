@@ -10,8 +10,7 @@ function createCore({ actions, model, onNext }) {
       let nextModel;
 
       if (Array.isArray(result)) {
-        nextModel = result[0];
-        sideEffect = result[1];
+        [nextModel, sideEffect] = result;
       } else {
         nextModel = result;
       }
@@ -25,11 +24,11 @@ function createCore({ actions, model, onNext }) {
     }
   });
 
-  onNext(model, _actions, { type: '@@duxy/INIT' + Math.random().toString(36).substring(7).split('').join('.') });
+  onNext(model, _actions, { type: '@@clex/INIT' + Math.random().toString(36).substring(7).split('').join('.') });
 
   return {
     actions: _actions,
-    getState: () => _model
+    getModel: () => _model
   };
 }
 
