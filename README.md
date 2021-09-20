@@ -1,7 +1,7 @@
 # Clex
-> Switch-case free state managment library
+> Switch-case free state management library
 
-Clex is a state managment library that
+Clex is a state management library that
 - Typed languages friendly
 - First class action creators
 - Switch-case free
